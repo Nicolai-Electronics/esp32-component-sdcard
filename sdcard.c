@@ -14,8 +14,9 @@
 static const char *TAG = "sdcard";
 
 esp_err_t mount_sd(int pin_cmd, int pin_clk, int pin_d0, int pin_pwr, const char* mountpoint, bool format_if_failed, int max_files) {
+    esp_err_t res;
     if (pin_pwr >= 0) {
-        esp_err_t res = gpio_set_direction(pin_pwr, GPIO_MODE_OUTPUT);
+        res = gpio_set_direction(pin_pwr, GPIO_MODE_OUTPUT);
         if (res != ESP_OK) return res;
         res = gpio_set_level(pin_pwr, true);
         if (res != ESP_OK) return res;
