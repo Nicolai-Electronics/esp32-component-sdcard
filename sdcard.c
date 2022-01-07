@@ -9,6 +9,9 @@
 #include "driver/sdspi_host.h"
 #include "sdmmc_cmd.h"
 
+#include <driver/gpio.h>
+#include <rom/gpio.h>
+
 #include "include/sdcard.h"
 
 static const char *TAG = "sdcard";
