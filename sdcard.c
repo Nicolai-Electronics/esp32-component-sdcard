@@ -16,6 +16,12 @@
 
 static const char *TAG = "sdcard";
 
+sdmmc_card_t* sdcardCard = NULL;
+
+sdmmc_card_t* getCard() {
+    return sdcardCard;
+}
+
 esp_err_t mount_sd(int pin_cmd, int pin_clk, int pin_d0, int pin_pwr, const char* mountpoint, bool format_if_failed, int max_files) {
     esp_err_t res;
     if (pin_pwr >= 0) {
@@ -27,7 +33,7 @@ esp_err_t mount_sd(int pin_cmd, int pin_clk, int pin_d0, int pin_pwr, const char
     
     sdmmc_host_t host = SDMMC_HOST_DEFAULT();
     sdmmc_slot_config_t slot_config = SDMMC_SLOT_CONFIG_DEFAULT();
-    
+
     host.flags = SDMMC_HOST_FLAG_1BIT;
     slot_config.width = 1;
     
@@ -52,8 +58,7 @@ esp_err_t mount_sd(int pin_cmd, int pin_clk, int pin_d0, int pin_pwr, const char
         .allocation_unit_size   = 0
     };
     
-    sdmmc_card_t* card;
-    res = esp_vfs_fat_sdmmc_mount(mountpoint, &host, &slot_config, &mount_config, &card);
+    res = esp_vfs_fat_sdmmc_mount(mountpoint, &host, &slot_config, &mount_config, &sdcardCard);
     
     if (res != ESP_OK) {
         if (res == ESP_FAIL) {
